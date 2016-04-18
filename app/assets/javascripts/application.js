@@ -29,12 +29,11 @@
 //     return
 
 $(document).ready(function() {
-  var faye = new Faye.Client("http://localhost:8080/faye");
-  
-	faye.subscribe('/about', function(data) { return eval(data)});
-	// faye.subscribe('/profile', function(data) { return eval(data)});
-	faye.subscribe('/contact', function(data) { return eval(data)});
-	$('.subscribe').each( function(){
-	 faye.subscribe('/' + $(this).data('channel'), function(data) { return eval(data)});
-	})
+  var faye_url = $("body").attr('data-faye');
+  if (faye_url) {
+    var faye = new Faye.Client(faye_url);
+    $('.subscribe').each( function(){
+     faye.subscribe('/' + $(this).data('channel'), function(data) { return eval(data)});
+    })
+  }
 });
